@@ -1,0 +1,24 @@
+@use '../helpers' as *;
+
+html, body {
+  overflow-x: hidden;
+
+  &.locked {
+    overflow: hidden;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $background-primary;
+}
