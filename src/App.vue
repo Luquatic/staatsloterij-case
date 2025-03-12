@@ -15,6 +15,8 @@ import ScratchGrid from './components/ScratchGrid.vue';
 </template>
 
 <style lang="scss">
+@use '@/assets/css/app' as *;
+
 header {
   display: flex;
   justify-content: center;

@@ -1,6 +1,7 @@
 @use '../helpers' as *;
 
 html, body {
+  background-color: $background-primary;
   overflow-x: hidden;
 
   &.locked {
@@ -20,5 +21,4 @@ img {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: $background-primary;
 }

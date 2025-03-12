@@ -3,13 +3,13 @@ import { ref, onMounted } from 'vue'
 import { type ScratchCell } from '@/models/ScratchCell'
 import { getGridState, setGridState, getScratchedState, setScratchedState, clearStates } from '@/composables/states'
 
-const GRID_SIZE = 100
+const GRID_ROWS = 100
+const GRID_COLS = 100
 const JACKPOT_PRIZE_AMOUNT = 1
 const CONSOLATION_PRIZE_AMOUNT = 100
 
 const grid = ref<ScratchCell[][]>([])
 const hasScratched = ref(false)
-
 
 const initGrid = () => {
   const savedGrid = getGridState()
@@ -20,8 +20,8 @@ const initGrid = () => {
     return
   }
 
-  grid.value = Array(GRID_SIZE).fill(null).map(() =>
-    Array(GRID_SIZE).fill(null).map(() => ({
+  grid.value = Array(GRID_ROWS).fill(null).map(() =>
+    Array(GRID_COLS).fill(null).map(() => ({
       scratched: false,
       hasConsolation: false,
       hasJackpot: false
@@ -29,14 +29,13 @@ const initGrid = () => {
   )
   placePrizes();
   simulateScratches();
-
 }
 
 const scratchCell = (i: number, j: number) => {
   if (hasScratched.value || grid.value[i][j].scratched) return
-  hasScratched.value = true
   grid.value[i][j].scratched = true
 
+  hasScratched.value = true
   setScratchedState(true)
   setGridState(grid.value)
 }
@@ -47,8 +46,8 @@ const placePrizes = () => {
 
   // Collect unique positions for prizes
   while (positions.size < totalAmount) {
-    const x = Math.floor(Math.random() * GRID_SIZE)
-    const y = Math.floor(Math.random() * GRID_SIZE)
+    const x = Math.floor(Math.random() * GRID_ROWS)
+    const y = Math.floor(Math.random() * GRID_COLS)
     positions.add(`${x},${y}`)
   }
 
@@ -59,25 +58,25 @@ const placePrizes = () => {
 
   // Place prizes on the grid
   positions.forEach(pos => {
+    const [x, y] = pos.split(',').map(Number)
+
     if (pos === jackpotPos) {
-      const [x, y] = pos.split(',').map(Number)
       grid.value[x][y].hasJackpot = true
     } else {
-      const [x, y] = pos.split(',').map(Number)
       grid.value[x][y].hasConsolation = true
     }
   })
 }
 
 const simulateScratches = () => {
-  const maxAmount = Math.min(1000, GRID_SIZE * GRID_SIZE)
+  const maxAmount = 5000
   const count = Math.floor(Math.random() * maxAmount)
   const positions = new Set<string>()
 
   // Collect unique positions to scratch
   while (positions.size < count) {
-    const x = Math.floor(Math.random() * GRID_SIZE)
-    const y = Math.floor(Math.random() * GRID_SIZE)
+    const x = Math.floor(Math.random() * GRID_ROWS)
+    const y = Math.floor(Math.random() * GRID_COLS)
     positions.add(`${x},${y}`)
   }
 
