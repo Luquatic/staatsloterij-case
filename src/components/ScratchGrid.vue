@@ -11,7 +11,7 @@ const CONSOLATION_PRIZE_AMOUNT = 100
 const grid = ref<ScratchCell[][]>([])
 const hasScratched = ref(false)
 
-const initGrid = () => {
+const initGrid = (): void => {
   const savedGrid = getGridState()
   hasScratched.value = getScratchedState()
 
@@ -31,7 +31,7 @@ const initGrid = () => {
   simulateScratches();
 }
 
-const scratchCell = (i: number, j: number) => {
+const scratchCell = (i: number, j: number): void => {
   if (hasScratched.value || grid.value[i][j].scratched) return
   grid.value[i][j].scratched = true
 
@@ -40,7 +40,7 @@ const scratchCell = (i: number, j: number) => {
   setGridState(grid.value)
 }
 
-const placePrizes = () => {
+const placePrizes = (): void => {
   const positions = new Set<string>()
   const totalAmount = CONSOLATION_PRIZE_AMOUNT + JACKPOT_PRIZE_AMOUNT
 
@@ -68,7 +68,7 @@ const placePrizes = () => {
   })
 }
 
-const simulateScratches = () => {
+const simulateScratches = (): void => {
   const maxAmount = 5000
   const count = Math.floor(Math.random() * maxAmount)
   const positions = new Set<string>()
@@ -89,7 +89,7 @@ const simulateScratches = () => {
   setGridState(grid.value)
 }
 
-const resetGrid = () => {
+const resetGrid = (): void => {
   clearStates()
   initGrid()
 }
